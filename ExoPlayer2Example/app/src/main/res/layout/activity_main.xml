@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.ayalus.exoplayer2example.MainActivity">
+
+    <TextView
+        android:text="ExoPlayer 2 Example App:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        />
+
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_marginTop="176px"
+        android:id="@+id/player_view"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="634px"/>
+
+
+</RelativeLayout>
