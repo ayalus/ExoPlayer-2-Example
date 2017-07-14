@@ -28,6 +28,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+
+
 /*
 Created by: Ayal Fieldust
 Date: 10/2016
@@ -86,14 +88,20 @@ public class MainActivity extends AppCompatActivity {
 //        String urimp4 = "/FileName.mp4";
 //        Uri mp4VideoUri = Uri.parse(Environment.getExternalStorageDirectory().getAbsolutePath()+urimp4);
 
+//building cam live stream link:
+        Uri mp4VideoUri =Uri.parse("https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8");
+
+//Random livestream link:
+//        Uri mp4VideoUri =Uri.parse("http://54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8");
+
+
 //yachts livestream m3m8 file:
-        Uri mp4VideoUri =Uri.parse("http://fluvod1.giniko.com/all-luxury-yachts/all-luxury-yachts/tracks-1,6/index.m3u8");
+//        Uri mp4VideoUri =Uri.parse("http://matrix.matrix-ott.tv:8000/live/Nasser/Nasser/24685.ts");
 
 //Random livestream file:
-//        Uri mp4VideoUri =Uri.parse("http://23.237.4.162:8080/Skysports1/index.m3u8");
+//        Uri mp4VideoUri =Uri.parse("http://54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8");
 
-//Sports livestream file:
-//        Uri mp4VideoUri =Uri.parse("http://23.237.4.162:8080/SkySportsHD3/index.m3u8");
+
 
 
 
