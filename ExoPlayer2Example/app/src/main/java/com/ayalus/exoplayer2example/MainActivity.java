@@ -17,10 +17,12 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.LoopingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
@@ -56,13 +58,11 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG,"portrait detected...");
         setContentView(R.layout.activity_main);
 
-
-
 // 1. Create a default TrackSelector
         Handler mainHandler = new Handler();
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(mainHandler, videoTrackSelectionFactory);
+        TrackSelector trackSelector = new DefaultTrackSelector( videoTrackSelectionFactory);
 
 // 2. Create a default LoadControl
         LoadControl loadControl = new DefaultLoadControl();
@@ -81,27 +81,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+// I. ADJUST HERE:
 
 //CHOOSE CONTENT: Livestream links may be out of date so find any m3u8 files online and replace:
-//VIDEO FROM SD CARD:
-//        String urimp4 = "/FileName.mp4";
+
+//VIDEO FROM SD CARD: ( 2 steps. set up file and path, then change videoSource to get the file)
+
+//        String urimp4 = "path/FileName.mp4"; //upload file to device and add path/name.mp4
 //        Uri mp4VideoUri = Uri.parse(Environment.getExternalStorageDirectory().getAbsolutePath()+urimp4);
+
 
 //building cam live stream link:
         Uri mp4VideoUri =Uri.parse("https://wowza.jwplayer.com/live/jelly.stream/playlist.m3u8");
 
-//Random livestream link:
+//Random indian livestream link (low quality):
 //        Uri mp4VideoUri =Uri.parse("http://54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8");
-
-
-//yachts livestream m3m8 file:
-//        Uri mp4VideoUri =Uri.parse("http://matrix.matrix-ott.tv:8000/live/Nasser/Nasser/24685.ts");
-
-//Random livestream file:
-//        Uri mp4VideoUri =Uri.parse("http://54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8");
-
-
 
 
 
@@ -109,11 +103,13 @@ public class MainActivity extends AppCompatActivity {
 // Measures bandwidth during playback. Can be null if not required.
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
 //Produces DataSource instances through which media data is loaded.
-//        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeterA);
         DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeterA);
-
 //Produces Extractor instances for parsing the media data.
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+
+
+
+// II. ADJUST HERE:
 
 //This is the MediaSource representing the media to be played:
 //FOR SD CARD SOURCE:
@@ -123,46 +119,52 @@ public class MainActivity extends AppCompatActivity {
         MediaSource videoSource = new HlsMediaSource(mp4VideoUri, dataSourceFactory, 1, null, null);
         final LoopingMediaSource loopingSource = new LoopingMediaSource(videoSource);
 
-
 // Prepare the player with the source.
         player.prepare(loopingSource);
 
-
-
         player.addListener(new ExoPlayer.EventListener() {
-            @Override
-            public void onLoadingChanged(boolean isLoading) {
-                Log.v(TAG,"Listener-onLoadingChanged...");
+                               @Override
+                               public void onTimelineChanged(Timeline timeline, Object manifest) {
+                                Log.v(TAG,"Listener-onTimelineChanged...");
 
-            }
+                               }
 
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                Log.v(TAG,"Listener-onPlayerStateChanged...");
+                               @Override
+                               public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+                                   Log.v(TAG,"Listener-onTracksChanged...");
 
-            }
+                               }
 
-            @Override
-            public void onTimelineChanged(Timeline timeline, Object manifest) {
-                Log.v(TAG,"Listener-onTimelineChanged...");
+                               @Override
+                               public void onLoadingChanged(boolean isLoading) {
+                                   Log.v(TAG,"Listener-onLoadingChanged...");
 
-            }
+                               }
 
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-                Log.v(TAG,"Listener-onPlayerError...");
-                player.stop();
-                player.prepare(loopingSource);
-                player.setPlayWhenReady(true);
-            }
+                               @Override
+                               public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                                   Log.v(TAG,"Listener-onPlayerStateChanged...");
 
-            @Override
-            public void onPositionDiscontinuity() {
-                Log.v(TAG,"Listener-onPositionDiscontinuity...");
+                               }
 
-            }
-        });
-        player.setPlayWhenReady(true);
+                               @Override
+                               public void onPlayerError(ExoPlaybackException error) {
+                                   Log.v(TAG,"Listener-onPlayerError...");
+                                   player.stop();
+                                   player.prepare(loopingSource);
+                                   player.setPlayWhenReady(true);
+
+                               }
+
+                               @Override
+                               public void onPositionDiscontinuity() {
+                                   Log.v(TAG,"Listener-onPositionDiscontinuity...");
+
+                               }
+                           });
+
+        player.setPlayWhenReady(true); //run file/link when ready to play.
+
 
     }//End of onCreate
 
