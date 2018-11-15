@@ -1,7 +1,9 @@
 # AndroidApps
 Created by: Ayal Fieldust
 Date: 10/2016
-Last Updated at: 8/2017
+Last Updated at: 11/2018
+
+ExoPlayer V: 2.8.4
 
 ExoPlayer 2 Example Description:
 This Example app was created to show a simple example of ExoPlayer Version 2 with outputting resolution on the UI.
