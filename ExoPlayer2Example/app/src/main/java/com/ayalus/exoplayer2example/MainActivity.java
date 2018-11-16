@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -38,19 +39,21 @@ Created by: Ayal Fieldust
 Date: 8/2017
 
 Description:
-This Example app was created to show a simple example of ExoPlayer Version 2.5.1.
+This Example app was created to show a simple example of ExoPlayer Version 2.8.4.
 There is an option to play mp4 files or live stream content.
 Exoplayer provides options to play many different formats, so the code can easily be tweaked to play the requested format.
-scroll down to "ADJUST HERE:" I & II to change between sources.
+Scroll down to "ADJUST HERE:" I & II to change between sources.
+Keep in mind that m3u8 files might be stale and you would need new sources.
  */
 
 public class MainActivity extends AppCompatActivity implements VideoRendererEventListener {
 
 
     private static final String TAG = "MainActivity";
-    private SimpleExoPlayerView simpleExoPlayerView;
+    private PlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private TextView resolutionTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
